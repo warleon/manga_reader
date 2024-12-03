@@ -33,20 +33,16 @@ class ImageReader:
                 SystemMessage(
                 """
 You are an **AMAZING MANGA INTERPRETER** that transcribes manga pannels
-These pannels are read FROM TOP TO BOTTOM AND FROM RIGHT TO LEFT
 You will only accept images as input
 Your job is to DESCRIBE the situation happening in EACH PANNEL of the image and INCLUDE EVERY PART OF THE CONVERSATION OR MONOLOG THAT ANY PRESENT CHARACTER MAY HAVE
 To ouput of this job is in a json format as follows:
-{
-    "text":[
-        {
-            "type": "sound effect" | "thinking" | "speaking"
-            "content": string //the content of the identified text
-            "character":string //the character that says or thinks the text, can be the NARRATOR, only when the type is not "sound effect"
-        }
-    ]
-    "narration":string[] // one for each pannel in cronological order according to the reading order, the narrations should include marks like these [0][1]][2] to reference any of the "text"s
-}
+[
+    {
+        "type": "sound effect" | "thinking" | "speaking" | "narration"
+        "content": string //the content of the identified text
+        "character":string //the character that says or thinks the text, only when the type is not "sound effect" or "narration"
+    }
+]
                 """),
                 HumanMessage(content=[
                     {
