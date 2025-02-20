@@ -1,6 +1,8 @@
 from my_agent import ImageReader
 import dotenv
 import os
+import json
+from gen_voice import gen_voice
 
 def create_file_with_counter(directory, content, extension="txt"):
     """
@@ -34,10 +36,29 @@ def create_file_with_counter(directory, content, extension="txt"):
 
 
 def main():
-    key =os.getenv("OPENAI_API_KEY")
-    agent = ImageReader(key)
-    text = agent.run("img\\0.png")
-    create_file_with_counter("responses",text)
+    #key =os.getenv("OPENAI_API_KEY")
+    #agent = ImageReader(key)
+    #text = agent.run("img\\preprocess_0.png")
+    #create_file_with_counter("responses",text)
+    # render final audio
+    conversation=None
+    mappings= {
+        "narrator":"target_voices\\male_warleon.wav",
+        "kawai":"target_voices\\female_yulisa.wav",
+        "tadano":"target_voices\\male_noe.wav"
+    }
+    with open("responses\\komisan.json","r") as file:
+        conversation = json.load(file)
+
+    for text,i in zip(conversation,range(len(conversation))):
+        print(i,text)
+        if text["type"].lower() == "sound effect":
+            continue
+        gen_voice(text["content"],mappings[text["character"].lower()],f"result\\{i}.wav")
+
+
+
+    
 
 if __name__ == "__main__":
     dotenv.load_dotenv()

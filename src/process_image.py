@@ -1,6 +1,7 @@
 from easyocr import Reader
 import cv2
 import numpy as np
+import os
 
 reader = Reader(["es","en"],gpu=False)
 
@@ -49,14 +50,17 @@ def flip_image(image_path, quadrilaterals, output_folder):
         flipped_image[y:y+h, nx-w:nx] = crop
 
     # Save the final image with all pasted crops
-    output_path = f"{output_folder}/final_result.png"
+
+    output_path = f"{output_folder}/preprocess_{os.path.basename(image_path)}"
     cv2.imwrite(output_path, flipped_image)
-    print(f"Saved final image with pasted crops to {output_path}")
+    return output_path
 
 
 def preprocess(image_path):
    results =  reader.readtext(image_path)
    quads = [r[0] for r in results]
-   flip_image(image_path,quads,".\\preprocess")
+   flip_image(image_path,quads,"img")
 
-preprocess("img\\0.png")
+
+if __name__ == "__main__":
+    preprocess("img\\0.png")

@@ -47,7 +47,10 @@ To ouput of this job is in a json format as follows:
                 HumanMessage(content=[
                     {
                         "type": "image_url",
-                        "image_url": {"url": f"data:image/jpeg;base64,{b64img}"},
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{b64img}",
+                        },
+                        
                     },
                 ])
             ]},
